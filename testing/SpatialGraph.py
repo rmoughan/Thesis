@@ -20,8 +20,6 @@ np.random.seed(42)
 env.seed(42)
 
 subgoal_buffer = SubgoalBuffer()
-Goals = []
-
 
 unexplored_nodes = []
 all_nodes = []
