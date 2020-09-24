@@ -1,0 +1,4 @@
+output_size: 2
+linear_layer_dims: [32,32]
+linear_input_dim: 4
+activation_fn: tanh

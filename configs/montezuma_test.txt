@@ -1,0 +1,16 @@
+name: Montezuma_Controller_Test
+model: DQN
+hierarchical: 1
+seed: 3
+num_timesteps: 2000000
+batch_size: 32
+env_is_gym: 1
+wrap_env: 0
+env_name: MontezumaRevengeNoFrameskip-v4
+lr: ConstantSchedule(2.5e-4)
+network_architecture_config: ./configs/network_configs/Montezuma_Controller.txt
+epsilon: PiecewiseSchedule([(0,1.00), (1e5,0.10), (5e5, 0.01)], outside_value=0.01)
+report_freq: 10000
+plot_value: Avg_Last_100_Episodes
+max_episode_length: 200
+record_freq: 250

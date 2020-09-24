@@ -1,0 +1,13 @@
+name: Pong
+model: DQN
+seed: 3
+num_timesteps: 4000000
+batch_size: 32
+env_is_gym: 1
+wrap_env: 1
+env_name: PongNoFrameskip-v4
+lr: ConstantSchedule(1e-4)
+network_architecture_config: ./configs/network_configs/Pong.txt
+epsilon: PiecewiseSchedule([(0,1.00), (1e6,0.10), (2000000, 0.01)], outside_value=0.01)
+report_freq: 10000
+plot_value: Avg_Last_100_Episodes

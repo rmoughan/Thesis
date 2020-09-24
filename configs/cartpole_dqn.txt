@@ -1,0 +1,16 @@
+name: CartPole_DQN
+model: DQN
+seed: 3
+num_timesteps: 100000
+batch_size: 100
+env_is_gym: 1
+wrap_env: 0
+env_name: CartPole-v0
+lr: ConstantSchedule(5e-4)
+epsilon: PiecewiseSchedule([(0,1.00), (5e4,0.10), (1e5, 0.02)], outside_value=0.02)
+network_architecture_config: ./configs/network_configs/CartPole_DQN.txt
+learning_starts: 1000
+learning_freq: 4
+frame_history_len: 1
+target_update_freq: 500
+plot_value: Avg_Last_100_Episodes

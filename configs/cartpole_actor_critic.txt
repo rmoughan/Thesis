@@ -1,0 +1,12 @@
+name: CartPole_Actor_Critic
+model: Actor_Critic
+seed: 74
+env_is_gym: 1
+wrap_env: 0
+env_name: CartPole-v0
+num_iterations: 100
+lr: ConstantSchedule(5e-3)
+actor_architecture_config: ./configs/network_configs/CartPole_Actor.txt
+critic_architecture_config: ./configs/network_configs/CartPole_Critic.txt
+report_freq: 10
+plot_value: Avg_Last_100_Episodes
