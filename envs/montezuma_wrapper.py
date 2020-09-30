@@ -91,6 +91,11 @@ class MontezumaWrapper(gym.Wrapper):
         #     self.vertical_jump_timer -= 1
         #     return True
 
+        #a possible hardcode solution is to to keep track of the original location
+        #of the jump start and not allow a goal to be above it or for inAir to be
+        #True until it is at the same exact location again for a vertical jump. Hacky,
+        #but at this point, like...
+
         test_action = 0
         clone_state = self.env.clone_full_state()
         for _ in range(2):
@@ -162,16 +167,20 @@ class MontezumaWrapper(gym.Wrapper):
             if np.sum(diff) > 0:
                 break
         if np.sum(diff) == 0:
-            raise ValueError("Not able to determine location!")
+            # from PIL import Image
+            # Image.fromarray(obs).show()
+            # pdb.set_trace()
+            return (-1, -1)
+            # raise ValueError("Not able to determine location!")
         nonzero_coords = np.where(diff[:,:,0] != 0)
         [mean_y, mean_x] = [np.mean(nonzero_coords[0]),np.mean(nonzero_coords[1])]
-        coords = (float(mean_x),float(mean_y))
+        coords = (int(round(mean_x, 0)),int(round(mean_y, 0))) #tentative, will want to take a second look at in a bit
         return coords
 
     def _attempt_action(self, obs, test_action):
         clone_state = self.env.clone_full_state()
         obs = self._remove_key(self._remove_skull(self._remove_header(self._remove_treadmill(obs))))
-        for i in range(5):
+        for i in range(3):
             next_obs, _, _, _ = self.env.step(test_action)
             next_obs = self._remove_key(self._remove_skull(self._remove_header(self._remove_treadmill(next_obs))))
             diff = next_obs - obs
@@ -257,3 +266,10 @@ class MontezumaWrapper(gym.Wrapper):
 #     print(i, env.vertical_jump_timer, info["inAir"], info["loc"])
 #     Image.fromarray(env.get_frame()).show()
 #     pdb.set_trace()
+
+
+### Play the env
+# import gym
+# from gym.utils.play import play
+# env = gym.make("MontezumaRevengeNoFrameskip-v4")
+# play(env, zoom=4)
