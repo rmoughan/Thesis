@@ -3,30 +3,25 @@ from collections import defaultdict
 
 import pdb
 
-class SubgoalBuffer: #need coooler name
+class SubgoalBuffer:
 
     def __init__(self, size = 1e6):
         self.size = size
-        self.stupid = set()
         self.buffer = defaultdict(lambda: [])
         self.goals = []
         self.minimum_goal_dist = 10
 
     def store(self, loc, action, reward):
-        self.stupid.add(tuple([loc, action, reward]))
+        #kinda want to round loc
+        if reward not in self.buffer[loc]:
+            self.buffer[loc].append(reward)
 
-        if len(self.stupid) > self.size:
-            print("should fix the size of the subgoal buffer")
+        if len(self.buffer) > self.size:
+            raise ValueError("SpatialGraph Buffer Overflow. Consider changing the size")
 
     def find_subgoals(self):
-        for memory in self.stupid:
-            self.buffer[memory[0]].append(memory[1:])
-
         for key, values in self.buffer.items():
-            unique_arps = set([value[1] for value in values])
-            if (len(unique_arps) > 1) and not self.near_any_subgoals(key):
-                if key[0] <= 65 and key[1] <= 115:
-                    pdb.set_trace()
+            if (len(values) > 1) and not self.near_any_subgoals(key):
                 self.goals.append(key)
         return self.goals
 

@@ -106,5 +106,5 @@ class HierarchicalPiecewiseScheduler(object):
     def value(self, goal, failure_rate):
         count = self.counts[goal]
         self.counts[goal] += 1
-        return self.schedules[goal].value(count)
-        # return min(self.schedules[goal].value(count), failure_rate)
+        # return self.schedules[goal].value(count)
+        return min(self.schedules[goal].value(count), failure_rate)

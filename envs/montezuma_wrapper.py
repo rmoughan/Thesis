@@ -116,7 +116,7 @@ class MontezumaWrapper(gym.Wrapper):
             return False
 
         #dealing with the annoying case where on treadmill and always moving
-        treadmill_observation = original_obs[135:136,63:100,:]
+        treadmill_observation = original_obs[135:136,61:100,:] #changed from 63 to 60, see if this breaks anything
         # treadmill_test_obs = test_obs[135:136,63:100,:] #for when I come back to dealing with the environment
         # if np.any(treadmill_test_obs):
         #     return False

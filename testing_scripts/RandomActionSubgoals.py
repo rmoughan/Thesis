@@ -25,7 +25,7 @@ env.seed(42)
 subgoal_buffer = SubgoalBuffer()
 Goals = []
 
-num_episodes = 1
+num_episodes = 350
 num_random_actions = 2000
 
 # all_actions = [[np.random.randint(0,8) for _ in range(num_random_actions)] for _ in range(num_episodes)]
@@ -76,6 +76,8 @@ for episode in range(num_episodes):
         if jumping:
             jump_outcome = info["jump_outcome"]
             subgoal_buffer.store(loc, action, jump_outcome)
+            if jump_outcome == -1:
+                break
         if (not jumping) and (not inAir):
             #need logic to override reward if die by walking, aka skull
             reward = reward if lives == 6 else -1
@@ -98,6 +100,7 @@ for episode in range(num_episodes):
 #this from a hack perspective, as ALE already has access to the state in general, so
 #I don't think we're cheating our algorithm or anything.
 
+print(subgoals)
 #plot a heatmap
 env.reset()
 obs = env.get_frame()

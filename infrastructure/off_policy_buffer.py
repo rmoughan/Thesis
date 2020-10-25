@@ -212,9 +212,7 @@ class OffPolicyReplayBuffer(object):
         m = np.zeros((210,160,3), dtype = np.float32)
         m[goal_y - 4: goal_y + 5, goal_x - 4: goal_x + 5,:] = 255 #255 to offset the div later on, +/- because of the k parameter in the wrapper
         m = convert_image_84(m).squeeze()
-        # base_img[np.nonzero(m)] = 255 #hacky as hell but does the job for now. Don't care unless there's efficiency issues
-        # base_img = base_img.reshape(84, 84, 1)
+        base_img[np.nonzero(m)] = 255 #hacky as hell but does the job for now. Don't care unless there's efficiency issues
+        base_img = base_img.reshape(84, 84, 1)
 
-        m[np.nonzero(m)] = 255 #hacky as hell but does the job for now. Don't care unless there's efficiency issues
-        m = m.reshape(84, 84, 1)
-        return m
+        return base_img
